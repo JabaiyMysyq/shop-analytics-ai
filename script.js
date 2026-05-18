@@ -46,12 +46,63 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 4. ДИНАМИЧЕСКАЯ И ИНТЕРАКТИВНАЯ ТАБЛИЦА (Исправлено) ---
+    // --- 4. ДИНАМИЧЕСКАЯ ТАБЛИЦА С АВТО-АНАЛИЗОМ ВЫВОДОВ ---
     const table = document.getElementById("analyticsTable");
     const addRowBtn = document.getElementById("addRowBtn");
+    const analysisOutput = document.getElementById("analysisOutput");
 
     if (table) {
         const tbody = table.querySelector("tbody");
+
+        // Функция автоматического расчета метрик таблицы и обновления блока вывода
+        const updateAnalysisReport = () => {
+            if (!analysisOutput) return;
+
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            
+            if (rows.length === 0) {
+                analysisOutput.innerHTML = "<span style='color: #ef4444;'>Таблица пуста. Добавьте данные, чтобы сгенерировать аналитический отчет.</span>";
+                return;
+            }
+
+            let maxCheck = -1, maxTime = -1, maxBounce = -1;
+            let maxCheckCategory = "", maxTimeCategory = "", maxBounceCategory = "";
+
+            rows.forEach(row => {
+                const cells = row.children;
+                if (cells.length < 4) return;
+
+                // Получаем текстовые значения и переводим в числа
+                const category = cells[0].textContent.trim();
+                const check = parseFloat(cells[1].textContent.replace(/[^0-9.-]/g, '')) || 0;
+                const time = parseFloat(cells[2].textContent.replace(/[^0-9.-]/g, '')) || 0;
+                const bounce = parseFloat(cells[3].textContent.replace(/[^0-9.-]/g, '')) || 0;
+
+                // Нахождение экстремумов данных
+                if (check > maxCheck) {
+                    maxCheck = check;
+                    maxCheckCategory = category;
+                }
+                if (time > maxTime) {
+                    maxTime = time;
+                    maxTimeCategory = category;
+                }
+                if (bounce > maxBounce) {
+                    maxBounce = bounce;
+                    maxBounceCategory = category;
+                }
+            });
+
+            // Запись структурированного текста в блок portfolio.html
+            analysisOutput.innerHTML = `
+                <p>📊 <strong>Предиктивный анализ на основе текущих метрик таблицы:</strong></p>
+                <ul>
+                    <li>Абсолютным лидером по финансовой эффективности является категория <strong>"${maxCheckCategory}"</strong> со средним чеком <strong>${maxCheck.toLocaleString()} KZT</strong>.</li>
+                    <li>Наибольшую вовлеченность и интерес пользователи проявляют к категории <strong>"${maxTimeCategory}"</strong>, удерживая внимание в среднем на протяжении <strong>${maxTime} мин.</strong> за сессию.</li>
+                    <li>Критическая зона риска зафиксирована в сегменте <strong>"${maxBounceCategory}"</strong>, где показатель отказов достиг рекордных <strong>${maxBounce}%</strong>. Рекомендуется оптимизировать UX/UI карточек товаров этой группы и пересмотреть ценовую политику.</li>
+                </ul>
+            `;
+        };
 
         // Функция назначения событий удаления на кнопки
         const initDeleteButtons = () => {
@@ -59,13 +110,22 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteButtons.forEach(btn => {
                 btn.onclick = (e) => {
                     const row = e.target.closest("tr");
-                    if (row) row.remove();
+                    if (row) {
+                        row.remove();
+                        updateAnalysisReport(); // Пересчитываем аналитику после удаления
+                    }
                 };
             });
         };
 
-        // Инициализируем кнопки для базовых строк
+        // Первичный запуск вычислений при открытии страницы
+        updateAnalysisReport();
         initDeleteButtons();
+
+        // Живой пересчет отчета при ручном редактировании ячеек пользователем
+        tbody.addEventListener("input", () => {
+            updateAnalysisReport();
+        });
 
         // Добавление новой строки
         if (addRowBtn) {
@@ -80,13 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const time = timeInput.value.trim();
                 const bounce = bounceInput.value.trim();
 
-                // Валидация полей
+                // Проверка заполнения полей
                 if (!category || !check || !time || !bounce) {
                     alert("Пожалуйста, заполните все 4 поля перед добавлением строки!");
                     return;
                 }
 
-                // Создаем новую структуру строки (точно под верстку portfolio.html)
                 const newTr = document.createElement("tr");
                 newTr.innerHTML = `
                     <td contenteditable="true">${category}</td>
@@ -98,13 +157,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                 `;
 
-                // Добавляем строку в таблицу
                 tbody.appendChild(newTr);
-                
-                // Переинициализируем кнопки удаления, чтобы новая кнопка тоже заработала
-                initDeleteButtons();
+                initDeleteButtons();   // Активируем кнопку удаления на новой строке
+                updateAnalysisReport(); // Добавляем новые показатели в расчет отчета
 
-                // Очищаем инпуты формы
+                // Сброс значений формы ввода
                 categoryInput.value = "";
                 checkInput.value = "";
                 timeInput.value = "";
@@ -112,11 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Умная сортировка по заголовкам
+        // Умная сортировка по заголовкам таблиц
         const headers = table.querySelectorAll("th");
         headers.forEach((header, index) => {
-            // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Игнорируем 5-ю колонку "Действия" (индекс 4), чтобы не ломать скрипт
-            if (index === 4) return; 
+            if (index === 4) return; // Игнорируем столбец "Действия"
 
             header.addEventListener("click", () => {
                 const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -137,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 tbody.innerHTML = "";
                 rows.forEach(row => tbody.appendChild(row));
-                initDeleteButtons(); // Перепривязываем клики удаления после перестановки строк
+                initDeleteButtons(); // Обновляем ссылки на кнопки после перестроения DOM
             });
         });
     }
