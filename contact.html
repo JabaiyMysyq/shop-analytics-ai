@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Контакты автора</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">E-Commerce <span>AI</span></div>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="interactive.html">AI Chat</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container" style="max-width: 600px;">
+        <h2>Связаться с автором проекта</h2>
+        <p>Если у вас возникли вопросы по структуре данных ИКТ проекта, отправьте форму ниже.</p>
+
+        <form action="#" onsubmit="alert('Сообщение успешно отправлено!'); return false;">
+            <div class="form-group">
+                <label>Ваше Имя</label>
+                <input type="text" required placeholder="Асылбек">
+            </div>
+            <div class="form-group">
+                <label>Ваш Email</label>
+                <input type="email" required placeholder="example@narxoz.kz">
+            </div>
+            <div class="form-group">
+                <label>Сообщение</label>
+                <textarea rows="5" required placeholder="Текст вашего сообщения..."></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Отправить форму</button>
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom"><p>&copy; 2026 Болатұлы Асылбек | Нархоз ИКТ Проект</p></div>
+    </footer>
+    <button id="backToTop">↑</button>
+    <script src="script.js"></script>
+</body>
+</html>

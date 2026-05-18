@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О методологии и AI инструменты</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">E-Commerce <span>AI</span></div>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="interactive.html">AI Chat</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Используемые AI-технологии и Галерея</h2>
+        <p>Для глубокого анализа воронки продаж и прогнозирования оттока пользователей применяются нейросетевые модели классификации аудитории.</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Иллюстрация AI 1</h3>
+                <div style="background:#334155; height:200px; display:flex; justify-content:center; align-items:center; border-radius:6px; color:var(--accent-color)">
+                    [AI Сгенерированная инфографика]
+                </div>
+                <p style="margin-top:10px;">Модель предсказания пользовательского пути на сайте.</p>
+            </div>
+            <div class="card">
+                <h3>Иллюстрация AI 2</h3>
+                <div style="background:#334155; height:200px; display:flex; justify-content:center; align-items:center; border-radius:6px; color:var(--accent-color)">
+                    [AI Портрет покупателя]
+                </div>
+                <p style="margin-top:10px;">Кластеризация сегментов по ценности (LTV).</p>
+            </div>
+        </div>
+
+        <section class="card" style="margin-top:40px;">
+            <h2>Интерактивный AI-Агент (Генератор стратегий)</h2>
+            <p>Выберите сегмент покупателей, чтобы агент сгенерировал маркетинговое решение:</p>
+            <div class="form-group">
+                <select id="segmentSelect" style="width:100%; padding:12px; background:var(--bg-color); color:#fff; border:1px solid var(--border-color); border-radius:6px;">
+                    <option value="cart">Пользователи, бросившие корзину</option>
+                    <option value="loyal">Постоянные VIP-клиенты</option>
+                    <option value="newbie">Новые посетители без покупок</option>
+                </select>
+            </div>
+            <button id="generateStrategy" class="btn">Запустить AI-генерацию</button>
+            <div id="aiAgentOutput" style="margin-top:20px; padding:15px; background:#0f172a; border-left:4px solid var(--accent-color); border-radius:4px;">
+                Результат генерации отобразится здесь.
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom"><p>&copy; 2026 Болатұлы Асылбек | Нархоз ИКТ Проект</p></div>
+    </footer>
+    <button id="backToTop">↑</button>
+    <script src="script.js"></script>
+</body>
+</html>

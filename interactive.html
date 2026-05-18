@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интерактивное взаимодействие с AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">E-Commerce <span>AI</span></div>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="interactive.html" class="active">AI Chat</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Чат-бот технической поддержки и аналитики</h2>
+        <p>Задайте виртуальному ассистенту вопрос о трендах или конверсии сайта для демонстрации работы эмулятора нейросети.</p>
+
+        <div class="chat-window">
+            <div class="chat-messages" id="chatMessages">
+                <div style="color: var(--accent-color); margin-bottom: 10px;">
+                    <strong>AI-Бот:</strong> Здравствуйте! Спросите меня о <strong>«трендах»</strong> или <strong>«конверсии»</strong> интернет-магазина.
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Введите ваше сообщение...">
+                <button id="sendChatBtn" class="btn">Отправить</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom"><p>&copy; 2026 Болатұлы Асылбек | Нархоз ИКТ Проект</p></div>
+    </footer>
+    <button id="backToTop">↑</button>
+    <script src="script.js"></script>
+</body>
+</html>

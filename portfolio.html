@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитика и Таблицы данных</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">E-Commerce <span>AI</span></div>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html" class="active">Portfolio</a>
+            <a href="interactive.html">AI Chat</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Аналитический отчет и Динамические данные</h2>
+        <p>Ниже представлена выборка метрик поведения пользователей интернет-магазина электроники. Нажмите на любой заголовок таблицы, чтобы отсортировать колонку.</p>
+
+        <div class="table-container">
+            <table class="dynamic-table" id="analyticsTable">
+                <thead>
+                    <tr>
+                        <th>Категория (Клик для сорт.)</th>
+                        <th>Ср. чек (KZT)</th>
+                        <th>Время на сайте (мин)</th>
+                        <th>Показатель отказов (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Смартфоны</td>
+                        <td>180000</td>
+                        <td>14.5</td>
+                        <td>22.4</td>
+                    </tr>
+                    <tr>
+                        <td>Ноутбуки</td>
+                        <td>350000</td>
+                        <td>22.1</td>
+                        <td>18.9</td>
+                    </tr>
+                    <tr>
+                        <td>Аксессуары</td>
+                        <td>12000</td>
+                        <td>5.8</td>
+                        <td>45.2</td>
+                    </tr>
+                    <tr>
+                        <td>Аудио-техника</td>
+                        <td>45000</td>
+                        <td>11.2</td>
+                        <td>30.1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" style="margin-top:30px;">
+            <h3>Выводы анализа</h3>
+            <p>Высокий показатель отказов в категории "Аксессуары" сигнализирует о проблемах с UX/UI на этапе карточки товара. В то же время, категория "Ноутбуки" демонстрирует максимальную вовлеченность клиентов по времени сессии.</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom"><p>&copy; 2026 Болатұлы Асылбек | Нархоз ИКТ Проект</p></div>
+    </footer>
+    <button id="backToTop">↑</button>
+    <script src="script.js"></script>
+</body>
+</html>
