@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     const cellA = rowA.children[index].textContent.trim();
                     const cellB = rowB.children[index].textContent.trim();
                     
-                    // Проверка на числа для корректной числовой сортировки
                     const numA = parseFloat(cellA.replace(/[^0-9.-]/g, ''));
                     const numB = parseFloat(cellB.replace(/[^0-9.-]/g, ''));
                     
@@ -76,39 +75,99 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 5. Интерактивный Чат-бот ---
+    // --- 5. УМНЫЙ ЧАТ-БОТ (Продвинутая логика с базой знаний) ---
     const sendChatBtn = document.getElementById("sendChatBtn");
     const chatInput = document.getElementById("chatInput");
     const chatMessages = document.getElementById("chatMessages");
 
     if (sendChatBtn && chatInput && chatMessages) {
-        const triggerBotResponse = (userText) => {
-            let botText = "Извините, я собираю дополнительные статистические данные по этому вопросу. Спросите о 'конверсии' или 'трендах'.";
-            const text = userText.toLowerCase();
-
-            if (text.includes("привет") || text.includes("здравствуй")) {
-                botText = "Приветствую! Я виртуальный аналитик магазина. Что вас интересует в поведении клиентов?";
-            } else if (text.includes("конверси")) {
-                botText = "Текущая конверсия сайта составляет 3.2%. Оптимизация UI через AI-рекомендации подняла её на 0.4% в этом квартале.";
-            } else if (text.includes("тренд")) {
-                botText = "Главный тренд 2026 года — mobile-first шоппинг и мгновенные транзакции через биометрию. Доля покупок со смартфонов достигла 78%.";
+        
+        // Расширенная база знаний ИИ-ассистента с синонимами (RegExp)
+        const aiKnowledgeBase = [
+            {
+                keywords: / привет|здравствуй|добрый день|салам/i,
+                response: "Приветствую! Я обновленная языковая модель-симулятор. Анализирую данные интернет-магазина 24/7. Чем могу помочь? Могу рассказать про конверсию, средний чек, брошенные корзины или тренды 2026 года."
+            },
+            {
+                keywords: /конверси|процент продаж|как покупают/i,
+                response: "Текущий уровень конверсии составляет **3.2%**. Благодаря внедрению ИИ-рекомендаций на основе анализа поведения, этот показатель вырос на 0.4% по сравнению с прошлым кварталом."
+            },
+            {
+                keywords: /тренд|будущее|перспективы|что нового/i,
+                response: "Главный тренд 2026 года — mobile-first коммерция (78% всех сессий) и предиктивные корзины, когда ИИ предугадывает желание клиента ещё до совершения клика."
+            },
+            {
+                keywords: /чек|деньги|стоимость|дороже всего/i,
+                response: "Лидером по среднему чеку являются Ноутбуки (**350,000 KZT**). Самый низкий чек в Аксессуарах (**12,000 KZT**), но у них самая высокая маржинальность."
+            },
+            {
+                keywords: /корзин|бросил|ушел|не купил/i,
+                response: "В категории 'Аксессуары' зафиксирован пик отказов — **45.2%**. Наш AI-агент рекомендует отправлять push-уведомление с напоминанием в течение первых 15 минут."
+            },
+            {
+                keywords: /время|долго|сидят на сайте/i,
+                response: "Дольше всего пользователи выбирают Ноутбуки — в среднем **22.1 минуты**. На аксессуарах задерживаются всего на **5.8 минут**."
+            },
+            {
+                keywords: /кто автор|кто сделал|создатель/i,
+                response: "Этот проект и его ИИ-модели разработал студент Школы экономики и менеджмента — **Болатұлы Асылбек**, в рамках финальной работы по ИКТ."
+            },
+            {
+                keywords: /спасибо|благодарю|круто|отлично/i,
+                response: "Всегда рад помочь! Если появятся новые вопросы по датасету или маркетинговым стратегиям — я всегда на связи."
             }
+        ];
 
-            setTimeout(() => {
-                chatMessages.innerHTML += `<div style="margin-bottom: 10px; color: var(--accent-color);"><strong>AI-Бот:</strong> ${botText}</div>`;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 600);
+        const getAIResponse = (text) => {
+            for (let item of aiKnowledgeBase) {
+                if (item.keywords.test(text)) {
+                    return item.response;
+                }
+            }
+            return "Хм, обрабатываю ваш запрос... Моя нейросеть обучена на данных этого интернет-магазина. Попробуйте спросить точнее, например: про 'конверсию', 'крупный чек', 'отказы в корзинах' или 'кто автор сайта?'.";
         };
 
         const sendMessage = () => {
-            const msg = chatInput.value.trim();
-            if (!msg) return;
+            const userText = chatInput.value.trim();
+            if (!userText) return;
 
-            chatMessages.innerHTML += `<div style="margin-bottom: 10px;"><strong>Вы:</strong> ${msg}</div>`;
+            // Отображаем сообщение пользователя
+            chatMessages.innerHTML += `
+                <div style="margin-bottom: 15px; text-align: right;">
+                    <span style="background: #334155; padding: 8px 14px; border-radius: 12px 12px 0 12px; display: inline-block; max-width: 80%; color: #fff;">
+                        ${userText}
+                    </span>
+                </div>`;
+            
             chatInput.value = "";
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            triggerBotResponse(msg);
+
+            // Создаем красивый индикатор того, что ИИ "печатает" ответ
+            const typingId = "typing-" + Date.now();
+            chatMessages.innerHTML += `
+                <div id="${typingId}" style="margin-bottom: 15px; text-align: left;">
+                    <span style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 12px 12px 12px 0; display: inline-block; color: var(--text-muted);">
+                        <em>AI Аналитик думает...</em>
+                    </span>
+                </div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Эмулируем задержку ответа нейросети для реалистичности
+            setTimeout(() => {
+                const typingIndicator = document.getElementById(typingId);
+                if (typingIndicator) {
+                    typingIndicator.remove(); // Удаляем индикатор загрузки
+                }
+
+                const botAnswer = getAIResponse(userText);
+                chatMessages.innerHTML += `
+                    <div style="margin-bottom: 15px; text-align: left;">
+                        <span style="background: #1e293b; border-left: 3px solid var(--accent-color); padding: 10px 14px; border-radius: 0 12px 12px 12px; display: inline-block; max-width: 85%; color: #fff; line-height: 1.5;">
+                            <strong>AI:</strong> ${botAnswer}
+                        </span>
+                    </div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000); // Задержка в 1 секунду
         };
 
         sendChatBtn.addEventListener("click", sendMessage);
