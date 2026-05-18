@@ -46,13 +46,79 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 4. Сортировка Динамической Таблицы ---
+    // --- 4. ДИНАМИЧЕСКАЯ И ИНТЕРАКТИВНАЯ ТАБЛИЦА (Исправлено) ---
     const table = document.getElementById("analyticsTable");
+    const addRowBtn = document.getElementById("addRowBtn");
+
     if (table) {
+        const tbody = table.querySelector("tbody");
+
+        // Функция назначения событий удаления на кнопки
+        const initDeleteButtons = () => {
+            const deleteButtons = table.querySelectorAll(".delete-row-btn");
+            deleteButtons.forEach(btn => {
+                btn.onclick = (e) => {
+                    const row = e.target.closest("tr");
+                    if (row) row.remove();
+                };
+            });
+        };
+
+        // Инициализируем кнопки для базовых строк
+        initDeleteButtons();
+
+        // Добавление новой строки
+        if (addRowBtn) {
+            addRowBtn.addEventListener("click", () => {
+                const categoryInput = document.getElementById("newCategory");
+                const checkInput = document.getElementById("newCheck");
+                const timeInput = document.getElementById("newTime");
+                const bounceInput = document.getElementById("newBounce");
+
+                const category = categoryInput.value.trim();
+                const check = checkInput.value.trim();
+                const time = timeInput.value.trim();
+                const bounce = bounceInput.value.trim();
+
+                // Валидация полей
+                if (!category || !check || !time || !bounce) {
+                    alert("Пожалуйста, заполните все 4 поля перед добавлением строки!");
+                    return;
+                }
+
+                // Создаем новую структуру строки (точно под верстку portfolio.html)
+                const newTr = document.createElement("tr");
+                newTr.innerHTML = `
+                    <td contenteditable="true">${category}</td>
+                    <td contenteditable="true">${parseFloat(check)}</td>
+                    <td contenteditable="true">${parseFloat(time)}</td>
+                    <td contenteditable="true">${parseFloat(bounce)}</td>
+                    <td style="text-align: center;">
+                        <button class="delete-row-btn" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Удалить</button>
+                    </td>
+                `;
+
+                // Добавляем строку в таблицу
+                tbody.appendChild(newTr);
+                
+                // Переинициализируем кнопки удаления, чтобы новая кнопка тоже заработала
+                initDeleteButtons();
+
+                // Очищаем инпуты формы
+                categoryInput.value = "";
+                checkInput.value = "";
+                timeInput.value = "";
+                bounceInput.value = "";
+            });
+        }
+
+        // Умная сортировка по заголовкам
         const headers = table.querySelectorAll("th");
         headers.forEach((header, index) => {
+            // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Игнорируем 5-ю колонку "Действия" (индекс 4), чтобы не ломать скрипт
+            if (index === 4) return; 
+
             header.addEventListener("click", () => {
-                const tbody = table.querySelector("tbody");
                 const rows = Array.from(tbody.querySelectorAll("tr"));
                 const isAscending = header.classList.toggle("asc");
                 
@@ -71,21 +137,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 tbody.innerHTML = "";
                 rows.forEach(row => tbody.appendChild(row));
+                initDeleteButtons(); // Перепривязываем клики удаления после перестановки строк
             });
         });
     }
 
-    // --- 5. УМНЫЙ ЧАТ-БОТ (Продвинутая логика с базой знаний) ---
+    // --- 5. УМНЫЙ ЧАТ-БОТ ---
     const sendChatBtn = document.getElementById("sendChatBtn");
     const chatInput = document.getElementById("chatInput");
     const chatMessages = document.getElementById("chatMessages");
 
     if (sendChatBtn && chatInput && chatMessages) {
-        
-        // Расширенная база знаний ИИ-ассистента с синонимами (RegExp)
         const aiKnowledgeBase = [
             {
-                keywords: / привет|здравствуй|добрый день|салам/i,
+                keywords: /привет|здравствуй|добрый день|салам/i,
                 response: "Приветствую! Я обновленная языковая модель-симулятор. Анализирую данные интернет-магазина 24/7. Чем могу помочь? Могу рассказать про конверсию, средний чек, брошенные корзины или тренды 2026 года."
             },
             {
@@ -131,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const userText = chatInput.value.trim();
             if (!userText) return;
 
-            // Отображаем сообщение пользователя
             chatMessages.innerHTML += `
                 <div style="margin-bottom: 15px; text-align: right;">
                     <span style="background: #334155; padding: 8px 14px; border-radius: 12px 12px 0 12px; display: inline-block; max-width: 80%; color: #fff;">
@@ -142,7 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
             chatInput.value = "";
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Создаем красивый индикатор того, что ИИ "печатает" ответ
             const typingId = "typing-" + Date.now();
             chatMessages.innerHTML += `
                 <div id="${typingId}" style="margin-bottom: 15px; text-align: left;">
@@ -152,12 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>`;
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Эмулируем задержку ответа нейросети для реалистичности
             setTimeout(() => {
                 const typingIndicator = document.getElementById(typingId);
-                if (typingIndicator) {
-                    typingIndicator.remove(); // Удаляем индикатор загрузки
-                }
+                if (typingIndicator) typingIndicator.remove();
 
                 const botAnswer = getAIResponse(userText);
                 chatMessages.innerHTML += `
@@ -167,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </span>
                     </div>`;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000); // Задержка в 1 секунду
+            }, 1000);
         };
 
         sendChatBtn.addEventListener("click", sendMessage);
