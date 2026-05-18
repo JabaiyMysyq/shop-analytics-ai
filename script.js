@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("analyticsTable");
     const addRowBtn = document.getElementById("addRowBtn");
     const analysisOutput = document.getElementById("analysisOutput");
+    const runAnalysisBtn = document.getElementById("runAnalysisBtn");
 
     if (table) {
         const tbody = table.querySelector("tbody");
@@ -80,8 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Нахождение экстремумов данных
                 if (check > maxCheck) {
-                    maxCheck = check;
-                    maxCheckCategory = category;
+                    maxCheck = check;maxCheckCategory = category;
                 }
                 if (time > maxTime) {
                     maxTime = time;
@@ -121,6 +121,16 @@ document.addEventListener("DOMContentLoaded", () => {
         // Первичный запуск вычислений при открытии страницы
         updateAnalysisReport();
         initDeleteButtons();
+
+        // Обработчик клика по кнопке ручного запуска AI-анализа
+        if (runAnalysisBtn) {
+            runAnalysisBtn.addEventListener("click", () => {
+                analysisOutput.innerHTML = "<em>⚙️ AI-Аналитик сканирует строки таблицы и пересчитывает метрики...</em>";
+                setTimeout(() => {
+                    updateAnalysisReport();
+                }, 400);
+            });
+        }
 
         // Живой пересчет отчета при ручном редактировании ячеек пользователем
         tbody.addEventListener("input", () => {
