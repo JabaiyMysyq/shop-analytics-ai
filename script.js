@@ -81,7 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Нахождение экстремумов данных
                 if (check > maxCheck) {
-                    maxCheck = check;maxCheckCategory = category;
+                    maxCheck = check;
+                    maxCheckCategory = category;
                 }
                 if (time > maxTime) {
                     maxTime = time;
@@ -95,11 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Запись структурированного текста в блок portfolio.html
             analysisOutput.innerHTML = `
-                <p>📊 <strong>Предиктивный анализ на основе текущих метрик таблицы:</strong></p>
-                <ul>
-                    <li>Абсолютным лидером по финансовой эффективности является категория <strong>"${maxCheckCategory}"</strong> со средним чеком <strong>${maxCheck.toLocaleString()} KZT</strong>.</li>
-                    <li>Наибольшую вовлеченность и интерес пользователи проявляют к категории <strong>"${maxTimeCategory}"</strong>, удерживая внимание в среднем на протяжении <strong>${maxTime} мин.</strong> за сессию.</li>
-                    <li>Критическая зона риска зафиксирована в сегменте <strong>"${maxBounceCategory}"</strong>, где показатель отказов достиг рекордных <strong>${maxBounce}%</strong>. Рекомендуется оптимизировать UX/UI карточек товаров этой группы и пересмотреть ценовую политику.</li>
+                <p style="margin-top: 0; color: #38bdf8;">📊 <strong>Предиктивный анализ на основе текущих метрик таблицы:</strong></p>
+                <ul style="padding-left: 20px; margin-bottom: 0;">
+                    <li style="margin-bottom: 8px;">Абсолютным лидером по финансовой эффективности является категория <strong style="color: #fff;">"${maxCheckCategory}"</strong> со средним чеком <strong style="color: #34d399;">${maxCheck.toLocaleString()} KZT</strong>.</li>
+                    <li style="margin-bottom: 8px;">Наибольшую вовлеченность и интерес пользователи проявляют к категории <strong style="color: #fff;">"${maxTimeCategory}"</strong>, удерживая внимание в среднем на протяжении <strong style="color: #f43f5e;">${maxTime} мин.</strong> за сессию.</li>
+                    <li>Критическая зона риска зафиксирована в сегменте <strong style="color: #fff;">"${maxBounceCategory}"</strong>, где показатель отказов достиг рекордных <strong style="color: #fb923c;">${maxBounce}%</strong>. Рекомендуется оптимизировать UX/UI карточек товаров этой группы и пересмотреть ценовую политику.</li>
                 </ul>
             `;
         };
@@ -118,21 +119,21 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        // Первичный запуск вычислений при открытии страницы
+        // Первичный автоматический расчет вычислений при открытии страницы
         updateAnalysisReport();
         initDeleteButtons();
 
         // Обработчик клика по кнопке ручного запуска AI-анализа
         if (runAnalysisBtn) {
             runAnalysisBtn.addEventListener("click", () => {
-                analysisOutput.innerHTML = "<em>⚙️ AI-Аналитик сканирует строки таблицы и пересчитывает метрики...</em>";
+                analysisOutput.innerHTML = "<em style='color: #a1a1aa;'>⚙️ AI-Аналитик сканирует строки таблицы и пересчитывает метрики...</em>";
                 setTimeout(() => {
                     updateAnalysisReport();
                 }, 400);
             });
         }
 
-        // Живой пересчет отчета при ручном редактировании ячеек пользователем
+        // Живой пересчет отчета при ручном редактировании ячеек пользователем в реальном времени
         tbody.addEventListener("input", () => {
             updateAnalysisReport();
         });
@@ -234,6 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
             {
                 keywords: /корзин|бросил|ушел|не купил/i,
                 response: "В категории 'Аксессуары' зафиксирован пик отказов — **45.2%**. Наш AI-агент рекомендует отправлять push-уведомление с напоминанием в течение первых 15 минут."
+            },
+            {
+                keywords: /время|долго|сидят на сайте/i,
+                response: "Дольше всего пользователи выбирают Ноутбуки — в среднем **22.1 минуты**. На аксессуарах задерживаются всего на **5.8 минут**."
             },
             {
                 keywords: /время|долго|сидят на сайте/i,
