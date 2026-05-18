@@ -19,42 +19,63 @@
 
     <main class="container">
         <h2>Аналитический отчет и Динамические данные</h2>
-        <p>Ниже представлена выборка метрик поведения пользователей интернет-магазина электроники. Нажмите на любой заголовок таблицы, чтобы отсортировать колонку.</p>
+        <p>Ниже представлена выборка метрик поведения пользователей интернет-магазина электроники. Нажмите на любой заголовок таблицы, чтобы отсортировать колонку. Кликните по тексту ячейки, чтобы изменить её.</p>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color);">
+            <input type="text" id="newCategory" placeholder="Категория (напр., Смартфоны)" style="flex: 1; min-width: 150px; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+            <input type="number" id="newCheck" placeholder="Ср. чек (KZT)" style="flex: 1; min-width: 100px; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+            <input type="number" id="newTime" placeholder="Время (мин)" step="0.1" style="flex: 1; min-width: 100px; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+            <input type="number" id="newBounce" placeholder="Отказы (%)" step="0.1" style="flex: 1; min-width: 100px; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+            <button id="addRowBtn" class="btn" style="padding: 8px 20px;">Добавить строку</button>
+        </div>
 
         <div class="table-container">
-            <table class="dynamic-table" id="analyticsTable">
+            <table class="dynamic-table" id="analyticsTable" style="width: 100%;">
                 <thead>
-                    <tr>
+                    <tr style="cursor: pointer;">
                         <th>Категория (Клик для сорт.)</th>
                         <th>Ср. чек (KZT)</th>
                         <th>Время на сайте (мин)</th>
                         <th>Показатель отказов (%)</th>
+                        <th style="text-align: center; cursor: default;">Действия</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Смартфоны</td>
-                        <td>180000</td>
-                        <td>14.5</td>
-                        <td>22.4</td>
+                        <td contenteditable="true">Смартфоны</td>
+                        <td contenteditable="true">180000</td>
+                        <td contenteditable="true">14.5</td>
+                        <td contenteditable="true">22.4</td>
+                        <td style="text-align: center;">
+                            <button class="delete-row-btn" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Удалить</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Ноутбуки</td>
-                        <td>350000</td>
-                        <td>22.1</td>
-                        <td>18.9</td>
+                        <td contenteditable="true">Ноутбуки</td>
+                        <td contenteditable="true">350000</td>
+                        <td contenteditable="true">22.1</td>
+                        <td contenteditable="true">18.9</td>
+                        <td style="text-align: center;">
+                            <button class="delete-row-btn" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Удалить</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Аксессуары</td>
-                        <td>12000</td>
-                        <td>5.8</td>
-                        <td>45.2</td>
+                        <td contenteditable="true">Аксессуары</td>
+                        <td contenteditable="true">12000</td>
+                        <td contenteditable="true">5.8</td>
+                        <td contenteditable="true">45.2</td>
+                        <td style="text-align: center;">
+                            <button class="delete-row-btn" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Удалить</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Аудио-техника</td>
-                        <td>45000</td>
-                        <td>11.2</td>
-                        <td>30.1</td>
+                        <td contenteditable="true">Аудио-техника</td>
+                        <td contenteditable="true">45000</td>
+                        <td contenteditable="true">11.2</td>
+                        <td contenteditable="true">30.1</td>
+                        <td style="text-align: center;">
+                            <button class="delete-row-btn" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Удалить</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
